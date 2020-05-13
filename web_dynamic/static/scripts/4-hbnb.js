@@ -61,14 +61,15 @@ $( document ).ready(function() {
     }
   });
   // Fetch data about places on each button click
-  $('.button', on('click', function () {
+  $('button').on('click', function () {
     $.ajax({
       type: 'POST',
       contentType: 'application/json',
-      data: jsonify({ 'amenities': text.keys(amenities) }),
+      data: JSON.stringify({ 'amenities': Object.keys(amenities) }),
       url: 'http://0.0.0.0:5001/api/v1/places_search',
       dataType: 'json',
       success: function (data) {
+        $('section.places').html('<h1>Places</h1>');
         for (let i = 0; i < data.length; i++) {
           let place = data[i];
           data_list = [ $('section.places').append(
@@ -86,7 +87,8 @@ $( document ).ready(function() {
             '</div>' +
             '<div class=description">' + place.description + '</div>' +
             '</article>')];
-	  }
-        }
-      });
-}));
+	      }
+      }
+    });
+  });
+});
